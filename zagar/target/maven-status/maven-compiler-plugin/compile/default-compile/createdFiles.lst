@@ -1,0 +1,6 @@
+com\zagar\client\client.class
+com\zagar\server\server.class
+com\zagar\App.class
+com\zagar\common\RoomManager.class
+com\zagar\server\ServerThread.class
+com\zagar\common\Room.class
