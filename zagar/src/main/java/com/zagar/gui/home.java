@@ -1,12 +1,16 @@
 package com.zagar.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
-import javax.swing.JFrame;   // or FlatLightLaf / FlatDarkLaf / FlatIntelliJLaf
-import javax.swing.JLabel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;   // or FlatLightLaf / FlatDarkLaf / FlatIntelliJLaf
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -27,6 +31,13 @@ public class home {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Zagar");
             JTextField text = new JTextField();
+            JTextField server = new JTextField();
+            JTextField host = new JTextField();
+
+            addPlaceholder(text, "Username");
+            addPlaceholder(server, "Server");
+            addPlaceholder(host, "Host");
+
             JPanel panel = new JPanel();
             JLabel title = new JLabel("Zagar Networks ", SwingConstants.CENTER);
 
@@ -39,33 +50,67 @@ public class home {
 
                 c.fill = GridBagConstraints.HORIZONTAL;
             }
-            // title position
-            c.anchor = GridBagConstraints.PAGE_START;
-            c.fill = GridBagConstraints.HORIZONTAL;
-            c.ipady = 40;      //make this component tall
-            c.weightx = 0.0;
-            c.gridwidth = 3;
-            c.gridx = 0;
+
+            // Username textbox
             c.gridy = 0;
-
-            panel.add(title, c);
-
-            // textbox
-            c.anchor = GridBagConstraints.PAGE_END;
-            c.gridy = 2;
-            c.gridx = 2;
+            c.gridx = 0;
             c.gridwidth = 3;   //2 columns wide
             c.insets = new Insets(60, 0, 0, 0);  //top padding
             panel.add(text, c);
 
-            text.add(new JTextField());
-            text.setSize(400, 50);
+            // Server textbox (below Username)
+            c.gridy = 1;
+            c.insets = new Insets(20, 0, 0, 0);  //gap between fields
+            panel.add(server, c);
+
+            // Host textbox (below Server)
+            c.gridy = 2;
+            c.insets = new Insets(20, 0, 0, 0);  //gap between fields
+            panel.add(host, c);
+
+            text.setSize(400, 400);
             title.setFont(new Font("Monsterrat", Font.PLAIN, 60));
 
+            frame.setLayout(new BorderLayout());
+            frame.add(title, BorderLayout.NORTH);     // top center
+            frame.add(panel, BorderLayout.CENTER);    // rest of content
+
+            text.setColumns(20); 
+            text.setFont(text.getFont().deriveFont(24f));   // bigger font 
+            server.setColumns(20);
+            host.setColumns(20);
+            server.setFont(text.getFont());
+            host.setFont(text.getFont());
+
             frame.setSize(800, 800);
-            frame.add(panel);
             frame.setLocationRelativeTo(null); // center on screen
             frame.setVisible(true);
+
+        });
+    }
+
+    private static void addPlaceholder(JTextField field, String placeholder) {
+        Color normalColor = field.getForeground();
+        Color placeholderColor = Color.GRAY;
+
+        field.setText(placeholder);
+        field.setForeground(placeholderColor);
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(normalColor);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (field.getText().isEmpty()) {
+                    field.setForeground(placeholderColor);
+                    field.setText(placeholder);
+                }
+            }
         });
     }
 }
