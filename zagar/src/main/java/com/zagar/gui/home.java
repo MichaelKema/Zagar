@@ -2,6 +2,7 @@ package com.zagar.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;   // or FlatLightLaf / FlatDarkLaf / FlatIntelliJLaf
 import javax.swing.JPanel;
@@ -17,12 +19,14 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.zagar.credientials.Login;
 
 public class home {
 
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
+    static Login credentials;
 
     public static void main(String[] args) {
         // Set the look & feel BEFORE creating any Swing components
@@ -33,6 +37,16 @@ public class home {
             JTextField text = new JTextField();
             JTextField server = new JTextField();
             JTextField host = new JTextField();
+            JButton sendButton = new JButton("Send");
+            
+            Login credentials = new Login();
+            
+            sendButton.addActionListener(e -> {
+                String Username = "/name " + text.getText();
+                credentials.Username(Username);
+
+            });
+
 
             addPlaceholder(text, "Username");
             addPlaceholder(server, "Server");
@@ -68,13 +82,20 @@ public class home {
             c.insets = new Insets(20, 0, 0, 0);  //gap between fields
             panel.add(host, c);
 
+            c.gridy = 3;
+            c.insets = new Insets(20, 0, 0, 0);
+            panel.add(sendButton,c );
+
+            sendButton.setPreferredSize(new Dimension(50,50));
+            sendButton.setFont(new Font("Monsterrat", Font.PLAIN, 35));
+
             text.setSize(400, 400);
             title.setFont(new Font("Monsterrat", Font.PLAIN, 60));
 
             frame.setLayout(new BorderLayout());
             frame.add(title, BorderLayout.NORTH);     // top center
             frame.add(panel, BorderLayout.CENTER);    // rest of content
-
+            
             text.setColumns(20); 
             text.setFont(text.getFont().deriveFont(24f));   // bigger font 
             server.setColumns(20);
@@ -113,4 +134,5 @@ public class home {
             }
         });
     }
+    
 }

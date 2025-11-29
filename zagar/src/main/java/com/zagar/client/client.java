@@ -10,10 +10,18 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+import com.zagar.credientials.Login;
+
 
 
 
 public class client {
+    public String saveUser(String Username) {
+        return Username;
+
+    }
+    static Login credentials;
+
     private static volatile boolean connected = false;
 
     public static void main(String[] args) {
@@ -21,6 +29,7 @@ public class client {
         String userName = null;
         Socket socket = null;
         PrintWriter out = null;
+        Login login = new Login();
 
         System.out.println("Client started. Waiting for input.");
         while (true) {
